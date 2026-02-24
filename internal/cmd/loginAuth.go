@@ -11,14 +11,15 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
-	"strconv"
-	"strings"
 )
 
 // StartBackendGToken 开启GFToken
@@ -31,6 +32,7 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 		LogoutPath:       "/auth/logout",
 		LoginBeforeFunc:  loginFunc,
 		LoginAfterFunc:   loginAfterFunc,
+		AuthPaths:        g.SliceStr{"/api/v1"}, // 需要校验的路由
 		AuthExcludePaths: g.SliceStr{"/route/getConstantRoutes"},
 		MultiLogin:       consts.GTokenNoMultiLogin,
 		AuthAfterFunc:    authAfterFunc,
